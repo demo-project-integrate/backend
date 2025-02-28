@@ -30,7 +30,7 @@ jobs:
         cache: maven
 
     - name: Set up SonarCloud
-      uses: SonarSource/sonarcloud-github-action@v1
+      uses: SonarSource/sonarcloud-github-action@v2
       with:
         token: ${{ secrets.SONAR_TOKEN }}  # GitHub secret for SonarCloud token
         
