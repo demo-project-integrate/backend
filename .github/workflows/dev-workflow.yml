@@ -28,15 +28,17 @@ jobs:
         java-version: '21'
         distribution: 'adopt'
         cache: maven
+
+    - name: Set up SonarCloud
+      uses: SonarSource/sonarcloud-github-action@v1
+      with:
+        token: ${{ secrets.SONAR_TOKEN }}  # GitHub secret for SonarCloud token
+        
     - name: Build with Maven
       run: mvn clean install
 
     - name: Run Unit Tests
       run: mvn test
 
-    - name: Set up SonarCloud
-      uses: SonarSource/sonarcloud-github-action@v1
-      with:
-        organization: "demo-project-integrate"  # Your SonarCloud organization key
-        token: ${{ secrets.SONAR_TOKEN }}  # GitHub secret for SonarCloud token
+    
   
