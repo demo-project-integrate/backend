@@ -34,7 +34,7 @@ jobs:
     - name: Set up SonarCloud
       uses: SonarSource/sonarcloud-github-action@v5
       with:
-        sonar-token: ${{ secrets.SONAR_TOKEN }}  # GitHub secret for SonarCloud token
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # GitHub secret for SonarCloud token
 
     # Step 5: Build with Maven
     - name: Build with Maven
