@@ -10,6 +10,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read  # Allows the workflow to access the repository contents
+      pull-requests: write  # Optional, if you want to create PR comments
+
     steps:
     # Step 1: Checkout the code from the repository
     - uses: actions/checkout@v2
