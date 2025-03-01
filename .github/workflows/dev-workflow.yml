@@ -30,13 +30,12 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-maven-
 
-        # Step 4: Install SonarScanner
+    # Step 4: Install SonarScanner
     - name: Install SonarScanner
       run: |
         curl -sSLo sonarqube-scanner.zip https://github.com/SonarSource/sonar-scanner-cli/releases/download/4.7.0.2747/sonar-scanner-cli-4.7.0.2747-linux.zip
         unzip sonar-scanner.zip
         sudo mv sonar-scanner-*/bin/sonar-scanner /usr/local/bin/
-
 
     # Step 5: Build with Maven
     - name: Build with Maven
@@ -46,4 +45,13 @@ jobs:
     - name: Run Unit Tests
       run: mvn test
 
-   
+    # Step 7: Configure SonarQube properties
+    - name: Configure SonarQube properties
+      run: |
+        echo "sonar.projectKey=my_project_key" >> sonar-project.properties
+        echo "sonar.host.url=http://your-sonarqube-server" >> sonar-project.properties
+        echo "sonar.login=${{ secrets.SONAR_TOKEN }}" >> sonar-project.properties
+
+    # Step 8: Run SonarQube Scan
+    - name: Run SonarQube Scan
+      run: sonar-scanner -Dsonar.projectKey=my_project_key -Dsonar.sources=src
