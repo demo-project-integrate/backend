@@ -30,12 +30,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-maven-
 
-    # Step 4: Set up SonarCloud (using the v2 action)
-    - name: Set up SonarCloud
-      uses: SonarSource/sonarqube-scan-action@v4.1.0
-      with:
-        token: ${{ secrets.SONAR_TOKEN }}  # GitHub secret for SonarCloud token
-
     # Step 5: Build with Maven
     - name: Build with Maven
       run: mvn clean install
@@ -44,7 +38,4 @@ jobs:
     - name: Run Unit Tests
       run: mvn test
 
-     # Step 7: Run SonarCloud analysis using Maven (this triggers the analysis)
-    - name: SonarCloud analysis
-      run: mvn sonar:sonar -Dsonar.projectKey=demo-project-integrate_Frontend -Dsonar.host.url=https://sonarcloud.io
    
