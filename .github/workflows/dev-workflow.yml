@@ -35,7 +35,7 @@ jobs:
     # Step 5: Install SonarScanner
     - name: Install SonarScanner
       run: |
-        choco install sonar-scanner --version=latest -y
+       choco install sonar-scanner --version=4.7.0.2747 -y
 
     # Step 6: Build with Maven
     - name: Build with Maven
