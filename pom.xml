@@ -28,6 +28,11 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
+
+		<!-- SonarQube properties -->
+		<sonar.projectKey>product-service</sonar.projectKey>
+		<sonar.host.url>http://localhost:9000</sonar.host.url> <!-- Replace with your SonarQube server URL -->
+		<sonar.login>${secrets.SONAR_TOEKN}</sonar.login> <!-- Use your SonarQube authentication token -->
 	</properties>
 	<dependencies>
 		<dependency>
@@ -71,7 +76,6 @@
 			<version>5.5.0</version>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -99,6 +103,13 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+
+			<!-- SonarQube Plugin -->
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.9.0.2131</version>
 			</plugin>
 		</plugins>
 	</build>
