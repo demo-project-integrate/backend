@@ -30,19 +30,25 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-maven-
 
-    # Step 4: Install SonarScanner (macOS)
+    # Step 4: Install Docker (if necessary)
+    - name: Set up Docker
+      run: |
+        brew install docker
+        sudo systemctl start docker  # Start Docker service if needed
+
+    # Step 5: Install SonarScanner (macOS)
     - name: Install SonarScanner
       run: |
         brew install sonar-scanner
 
-    # Step 5: Build with Maven
+    # Step 6: Build with Maven
     - name: Build with Maven
       run: mvn clean install
 
-    # Step 6: Run Unit Tests
+    # Step 7: Run Unit Tests
     - name: Run Unit Tests
       run: mvn test
 
-    # Step 7: Run SonarQube Analysis
+    # Step 8: Run SonarQube Analysis
     - name: Run SonarQube Analysis
       run: mvn sonar:sonar -Dsonar.login=${{ secrets.SONAR_TOKEN }}
