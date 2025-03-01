@@ -1,4 +1,4 @@
-name: Java CI with Maven and SonarCloud
+name: Java CI with Maven and SonarQube
 
 on:
   push:
@@ -35,12 +35,23 @@ jobs:
       run: |
         brew install sonar-scanner
 
-    # Step 5: Build with Maven
+  
+
+    # Step 7: Configure SonarQube properties
+    - name: Configure SonarQube properties
+      run: |
+        echo "sonar.projectKey=my_project_key" >> sonar-project.properties
+        echo "sonar.host.url=http://your-sonarqube-server" >> sonar-project.properties
+        echo "sonar.login=${{ secrets.SONAR_TOKEN }}" >> sonar-project.properties
+
+    # Step 8: Run SonarQube Analysis
+    - name: Run SonarQube Analysis
+      run: sonar-scanner
+
+  # Step 5: Build with Maven
     - name: Build with Maven
       run: mvn clean install
 
     # Step 6: Run Unit Tests with Maven
     - name: Run Unit Tests
       run: mvn test
-
-  
