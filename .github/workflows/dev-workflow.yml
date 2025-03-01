@@ -6,9 +6,9 @@ on:
   pull_request:
     branches: [ "dev" ]
 
-jobs:
+jobs:a
   build:
-    runs-on: macos-latest
+    runs-on: windows-latest  # Specify Windows runner
     
     steps:
     # Step 1: Checkout the code from the repository
@@ -25,21 +25,17 @@ jobs:
     - name: Cache Maven dependencies
       uses: actions/cache@v2
       with:
-        path: ~/.m2/repository
+        path: C:\Users\runner\.m2\repository  # Path to Maven repository in Windows
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
           ${{ runner.os }}-maven-
 
-    # Step 4: Install Docker (if necessary)
-    - name: Set up Docker
-      run: |
-        brew install docker
-        sudo systemctl start docker  # Start Docker service if needed
 
-    # Step 5: Install SonarScanner (macOS)
+    
+    # Step 5: Install SonarScanner
     - name: Install SonarScanner
       run: |
-        brew install sonar-scanner
+        choco install sonar-scanner --version=latest -y
 
     # Step 6: Build with Maven
     - name: Build with Maven
@@ -52,3 +48,6 @@ jobs:
     # Step 8: Run SonarQube Analysis
     - name: Run SonarQube Analysis
       run: mvn sonar:sonar -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
+    - name: Build & push Docker image
+      uses: mr-smithers-excellent/docker-build-push@v5
