@@ -30,6 +30,14 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-maven-
 
+        # Step 4: Install SonarScanner
+    - name: Install SonarScanner
+      run: |
+        curl -sSLo sonarqube-scanner.zip https://github.com/SonarSource/sonar-scanner-cli/releases/download/4.7.0.2747/sonar-scanner-cli-4.7.0.2747-linux.zip
+        unzip sonar-scanner.zip
+        sudo mv sonar-scanner-*/bin/sonar-scanner /usr/local/bin/
+
+
     # Step 5: Build with Maven
     - name: Build with Maven
       run: mvn clean install
