@@ -33,14 +33,21 @@ jobs:
       - name: Generate SBOM with CycloneDX
         run: mvn cyclonedx:makeAggregateBom
 
+      - name: Move SBOM to root
+        run: mv target/bom.json .
+
+      - name: Debug SBOM File
+        run: ls -l
+
       - name: Upload SBOM to Dependency-Track
         run: |
-           curl -X "POST" "http://172.28.208.1:8080/api/v1/bom" \
-           -H "X-Api-Key: ${{ secrets.DTRACK_API_KEY }}" \
-           -H "Content-Type: multipart/form-data" \
-           -F "autoCreate=true" \
-           -F "projectName=YourProjectName" \
-           -F "projectVersion=1.0.0" \
-           -F "bom=@bom.json"
+          curl -X "POST" "http://172.28.208.1:8080/api/v1/bom" \
+          -H "X-Api-Key: ${{ secrets.DTRACK_API_KEY }}" \
+          -H "Content-Type: multipart/form-data" \
+          -F "autoCreate=true" \
+          -F "projectName=YourProjectName" \
+          -F "projectVersion=1.0.0" \
+          -F "bom=@bom.json"
+
 
 
