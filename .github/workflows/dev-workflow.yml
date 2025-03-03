@@ -1,4 +1,4 @@
-name: Java CI with SonarQube
+name: Java CI with SonarQube & CycloneDX
 
 on:
   push:
@@ -30,4 +30,13 @@ jobs:
       - name: Build and Test
         run: mvn clean install
 
-     
+      - name: Generate SBOM with CycloneDX
+        run: mvn cyclonedx:makeAggregateBom
+
+      - name: Upload SBOM to Dependency-Track
+        run: |
+          curl -X "PUT" "http://your-dependency-track-instance/api/v1/bom" \
+               -H "X-Api-Key: ${{ secrets.DTRACK_API_KEY }}" \
+               -H "Content-Type: multipart/form-data" \
+               -F "project=your-project-uuid" \
+               -F "bom=@target/bom.json"
