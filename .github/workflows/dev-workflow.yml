@@ -30,5 +30,4 @@ jobs:
       - name: Build and Test
         run: mvn clean install
 
-      - name: Run SonarQube Analysis
-        run: mvn sonar:sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+     
