@@ -32,7 +32,7 @@
 		<!-- SonarQube properties -->
 		<sonar.projectKey>product-service</sonar.projectKey>
 		<sonar.host.url>http://localhost:9000</sonar.host.url> <!-- Replace with your SonarQube server URL -->
-		<sonar.login>${secrets.SONAR_TOEKN}</sonar.login> <!-- Use your SonarQube authentication token -->
+		<sonar.login>${secrets.SONAR_TOKEN}</sonar.login> <!-- Use your SonarQube authentication token -->
 	</properties>
 	<dependencies>
 		<dependency>
