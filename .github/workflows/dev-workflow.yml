@@ -35,7 +35,7 @@ jobs:
 
       - name: Upload SBOM to Dependency-Track
         run: |
-          curl -X "GET" "http://localhost:8081/" \
+          curl -X "GET" "http://host.docker.internal:8081/api/v1/bom" \
                -H "X-Api-Key: ${{ secrets.DTRACK_API_KEY }}" \
                -H "Content-Type: multipart/form-data" \
                -F "project=your-project-uuid" \
