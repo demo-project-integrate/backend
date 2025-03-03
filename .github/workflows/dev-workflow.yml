@@ -1,29 +1,15 @@
-name: Java CI with Maven and SonarQube
+name: Java CI with SonarQube
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "dev" ]
+    branches: [ "main" ]
+
 jobs:
   build:
-    runs-on: ubuntu-latest  # Use Linux since Windows lacks built-in Docker support
-
-    services:
-      sonarqube:
-        image: sonarqube:lts
-        env:
-          SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
-          SONARQUBE_JDBC_USERNAME: "sonar"
-          SONARQUBE_JDBC_PASSWORD: "sonar"
-        ports:
-          - 9000:9000
-        options: >-
-          --health-cmd "curl -f http://localhost:9000/api/system/health || exit 1"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 10
-
+    runs-on: ubuntu-latest
+    
     steps:
       - uses: actions/checkout@v2
 
@@ -33,10 +19,15 @@ jobs:
           java-version: '21'
           distribution: 'adopt'
 
-      - name: Wait for SonarQube
-        run: sleep 30  # Allow time for SonarQube to fully start
+      - name: Cache Maven dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
 
-      - name: Build and test
+      - name: Build and Test
         run: mvn clean install
 
       - name: Run SonarQube Analysis
