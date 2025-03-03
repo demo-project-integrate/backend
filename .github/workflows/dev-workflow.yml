@@ -3,7 +3,7 @@ name: Dependency-Track Analysis
 on:
   push:
     branches:
-      - main
+      - dev
   pull_request:
 
 jobs:
