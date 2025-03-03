@@ -38,5 +38,5 @@ jobs:
           curl -X "PUT" "http://localhost:8080/api/v1/bom" \
                -H "X-Api-Key: ${{ secrets.DTRACK_API_KEY }}" \
                -H "Content-Type: multipart/form-data" \
-               -F "project=your-project-uuid" \
+               -F "project=91e93789-cf2f-4121-b2be-38b41edaa1de" \
                -F "bom=@sbom.json"
