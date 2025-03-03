@@ -1,4 +1,4 @@
-name: Java CI with SonarQube & CycloneDX
+name: Java CI with SonarQube
 
 on:
   push:
