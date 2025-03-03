@@ -33,7 +33,7 @@ jobs:
     # Step 4: Start SonarQube (If self-hosted)
     - name: Start SonarQube Server
       run: |
-        Start-Process -FilePath "C:\path\to\sonarqube\bin\windows-x86-64\StartSonar.bat"
+        Start-Process -FilePath "C:\Users\rishika.jat.DESKTOP-8RRNMV0\Downloads\sonarqube-25.2.0.102705\sonarqube-25.2.0.102705\bin\windows-x86-64\StartSonar.bat"
       shell: pwsh
     
     # Step 5: Wait for SonarQube to be Ready
