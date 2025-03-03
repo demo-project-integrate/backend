@@ -47,7 +47,7 @@ jobs:
           -F "autoCreate=true" \
           -F "projectName=YourProjectName" \
           -F "projectVersion=1.0.0" \
-          -F "bom=@bom.json"
+          -F "bom=target/bom.json"
 
 
 
