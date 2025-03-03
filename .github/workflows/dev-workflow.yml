@@ -25,26 +25,35 @@ jobs:
     - name: Cache Maven dependencies
       uses: actions/cache@v2
       with:
-        path: C:\Users\runner\.m2\repository  # Path to Maven repository in Windows
+        path: C:\Users\runneradmin\.m2\repository  # Path to Maven repository in Windows
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
           ${{ runner.os }}-maven-
 
-      
-    # Step 7: Run SonarQube Analysis
-    - name: Run SonarQube Analysis
-      run: mvn sonar:sonar -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+    # Step 4: Start SonarQube (If self-hosted)
+    - name: Start SonarQube Server
+      run: |
+        Start-Process -FilePath "C:\path\to\sonarqube\bin\windows-x86-64\StartSonar.bat"
+      shell: pwsh
+    
+    # Step 5: Wait for SonarQube to be Ready
+    - name: Wait for SonarQube
+      run: |
+        Start-Sleep -Seconds 30  # Give it time to start
 
-    # Step 5: Build with Maven
+       # Step 8: Run SonarQube Analysis
+    - name: Run SonarQube Analysis
+      run: mvn sonar:sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
+    # Step 6: Build with Maven
     - name: Build with Maven
       run: mvn clean install
 
-    # Step 6: Run Unit Tests
+    # Step 7: Run Unit Tests
     - name: Run Unit Tests
       run: mvn test
 
-
-    # Step 8: Build & push Docker image (Optional)
+    # Step 9: Build & push Docker image (Optional)
     - name: Build & push Docker image
       uses: mr-smithers-excellent/docker-build-push@v5
       with:
