@@ -30,7 +30,7 @@ jobs:
         run: ls -l target/
 
       - name: Move SBOM to Root Directory
-        run: mv target/bom.json .
+        run: mv target/bom.json 
 
       - name: Upload SBOM to Dependency-Track
         run: |
