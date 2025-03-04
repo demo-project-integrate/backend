@@ -36,9 +36,11 @@ jobs:
         run: mv target/bom.json bom.json
 
       - name: Upload SBOM to Dependency-Track
-        run: |
-          curl -X "PUT" "http://40.82.200.144:8080/projects/21089415-2ed6-450f-88a3-e4281ba0684b"  \
-               -H "X-Api-Key: ${{ secrets.DTRACK_API_KEY }}" \
-               -H "Content-Type: multipart/form-data" \
-               -F "project=21089415-2ed6-450f-88a3-e4281ba0684b" \
-               -F "bom=@bom.json" -v
+        uses: DependencyTrack/gh-upload-sbom@v3
+        with:
+          serverHostname: '40.82.200.144:8081'
+          apiKey: ${{ secrets.DTRACK_API_KEY }}
+          project: ${{ secrets.PROJECT_ID }}
+          projectName: 'demopipeline-backend'
+          projectVersion: '1.0'
+          bomFilename: "/bom.xml"
