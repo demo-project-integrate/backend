@@ -26,7 +26,7 @@ jobs:
         run: mvn clean install
 
       - name: Build & push Docker image
-        uses: docker/build-push-action@v5
+        uses: mr-smithers-excellent/docker-build-push@v5
         with:
           image: rishika03/backend
           tags: latest
@@ -36,8 +36,3 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
 
-      - name: Run Docker container
-        run: |
-          docker stop backend || true
-          docker rm backend || true
-          docker run -d -p 8085:8085 --name backend rishika03/backend:latest
