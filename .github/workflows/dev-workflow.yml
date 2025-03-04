@@ -8,7 +8,7 @@ on:
 
 jobs:
   sbom-analysis:
-    runs-on: windows-latest  # Change if using a self-hosted runner
+    runs-on: ubuntu-latest  # Change if using a self-hosted runner
     steps:
     
       - name: Checkout Code
