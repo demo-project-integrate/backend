@@ -31,7 +31,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Generate SBOM with CycloneDX
-        run: mvn cyclonedx:makeAggregateBom -Dcyclonedx.output.format=json
+        run: mvn cyclonedx:makeAggregateBom
 
       - name: Check if SBOM Exists
         run: ls -l target/
@@ -42,7 +42,9 @@ jobs:
       - name: Upload SBOM to Dependency-Track
         uses: DependencyTrack/gh-upload-sbom@v3
         with:
-          serverHostname: '40.82.200.144:8081'
+          serverHostname: '40.82.200.144'
+          port: ${{ secrets.DTRACK_PORT }}
+          protocol: ${{ secrets.DTRACK_PROTOCOL }}
           apiKey: ${{ secrets.DTRACK_API_KEY }}
           project: ${{ secrets.PROJECT_ID }}
           projectName: 'demopipeline-backend'
