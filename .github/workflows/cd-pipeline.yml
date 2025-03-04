@@ -29,6 +29,6 @@ jobs:
 
       - name: Deploy Container
         run: |
-          docker stop my-app || true
-          docker rm my-app || true
+          docker stop backend || true
+          docker rm backend || true
           docker run -d -p 80:80 --name backend ${{ secrets.DOCKER_USERNAME }}/backend:latest
