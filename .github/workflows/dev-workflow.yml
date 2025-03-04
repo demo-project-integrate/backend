@@ -37,7 +37,7 @@ jobs:
 
       - name: Upload SBOM to Dependency-Track
         run: |
-          curl -X "PUT" "http://40.82.200.144:8081/api/v1/bom" \
+          curl -X "GET" "http://40.82.200.144:8081/api/version" \
                -H "X-Api-Key: ${{ secrets.DTRACK_API_KEY }}" \
                -H "Content-Type: multipart/form-data" \
                -F "project=21089415-2ed6-450f-88a3-e4281ba0684b" \
