@@ -37,3 +37,10 @@ jobs:
           dockerfile: Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+
+
+      - name: Run Docker container
+        run: |
+          docker stop backend || true
+          docker rm backend || true
+          docker run -d -p 8085:8085 --name backend rishika03/backend:latest
