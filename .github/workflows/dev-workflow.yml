@@ -8,7 +8,7 @@ on:
 
 jobs:
   sbom-analysis:
-    runs-on: self-hosted  # Change if using a self-hosted runner
+    runs-on: windows-latest  # Change if using a self-hosted runner
     steps:
     
       - name: Checkout Code
@@ -23,11 +23,11 @@ jobs:
       - name: Install Maven Dependencies
         run: mvn clean install
 
+      - name: Run Unit Tests
+        run: mvn test
+
       - name: Generate SBOM with CycloneDX
         run: mvn cyclonedx:makeAggregateBom -Dcyclonedx.output.format=json
-
-      - name: Debug SBOM File
-        run: ls -l target/
 
       - name: Move SBOM to Root Directory
         run: mv target/bom.json 
