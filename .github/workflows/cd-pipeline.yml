@@ -16,7 +16,7 @@ jobs:
       - name: Set up SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.AZURE_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          echo "${{ secrets.AZURE_SSH_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.AZURE_VM_IP }} >> ~/.ssh/known_hosts
  
@@ -28,8 +28,7 @@ jobs:
             mkdir -p ~/backend
             cd ~/backend
 
-            eval "$(ssh-agent -s)"
-            ssh-add ~/.ssh/id_rsa
+           
 
  
             # Use SSH-based Git authentication
