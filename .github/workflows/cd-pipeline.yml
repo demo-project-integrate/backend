@@ -27,6 +27,10 @@ jobs:
             # Ensure the backend directory exists
             mkdir -p ~/backend
             cd ~/backend
+
+            eval "$(ssh-agent -s)"
+            ssh-add ~/.ssh/id_rsa
+
  
             # Use SSH-based Git authentication
             if [ ! -d ".git" ]; then
