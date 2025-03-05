@@ -67,6 +67,49 @@ jobs:
           projectVersion: '1.0'
           bomFilename: "target/bom.xml"
 
+  sonarcloud:
+    runs-on: ubuntu-latest
+    needs: [azureVM]
+    steps:
+      - name: Start SonarQube and PostgreSQL on Azure VM
+        run: |
+          mkdir -p ~/.ssh
+          echo "$AZURE_SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no demopipelining@40.82.200.144 \
+            "sudo systemctl start postgresql && \
+             sudo systemctl start sonarqube && \
+             echo 'Waiting for SonarQube to become ready...' && \
+             until curl -sSf --retry 12 --retry-all-errors --retry-delay 10 http://localhost:9000/api/system/status | grep -q '"UP"'; do \
+               sleep 10; \
+             done"
+        env:
+          AZURE_SSH_PRIVATE_KEY: ${{ secrets.AZURE_SSH_PRIVATE_KEY }}
+      
+      - uses: actions/checkout@v4
+      - name: Set Up Java
+        uses: actions/setup-java@v3
+        with:
+           distribution: 'temurin'
+           java-version: '21'
+
+      - name: Install Maven Dependencies
+        run: mvn clean install
+      - name: Install SonarScanner
+        run: |
+          wget "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip"
+          unzip sonar-scanner-cli-5.0.1.3006-linux.zip
+          sudo mv sonar-scanner-5.0.1.3006-linux /opt/sonar-scanner
+          echo "/opt/sonar-scanner/bin" >> $GITHUB_PATH
+      
+      - name: Run Sonar Scanner
+        run: |
+          mvn clean verify sonar:sonar \
+                     -Dsonar.projectKey=demo-pipeline-backend \
+                     -Dsonar.host.url=http://40.82.200.144:9000 \
+                     -Dsonar.login=${{secrets.SONAR_TOKEN}}
+    
+
   azurevm-stop:
     runs-on: ubuntu-latest
     needs: [dependency-track]
