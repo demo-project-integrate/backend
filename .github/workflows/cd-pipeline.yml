@@ -25,14 +25,19 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
 
-      - name: Build & push Docker image
-        uses: mr-smithers-excellent/docker-build-push@v5
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
         with:
-          image: rishika03/backend
-          tags: latest
-          registry: docker.io
-          dockerfile: Dockerfile
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+         username: ${{ secrets.DOCKER_USERNAME }}
+         password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: rishika03/backend:latest
+
 
 
