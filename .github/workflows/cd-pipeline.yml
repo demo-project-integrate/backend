@@ -33,5 +33,5 @@ jobs:
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }} \
             "chmod 600 ~/.ssh/id_rsa && \
              echo -e 'Host github.com\n  HostName github.com\n  IdentityFile ~/.ssh/id_rsa' >> ~/.ssh/config && \
-             git clone --depth=1 git@github.com:${{ github.repository }}.git backend || \
+             git clone -v git@github.com:${{ github.repository }}.git backend || \
              (cd backend && git pull origin main)"
