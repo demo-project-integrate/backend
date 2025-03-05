@@ -39,5 +39,7 @@ jobs:
           push: true
           tags: rishika03/backend:latest
 
+      - name: Pull the image from Docker Hub (so it appears in Docker Desktop)
+        run: docker pull rishika03/backend:latest
 
 
