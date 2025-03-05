@@ -1,38 +1,37 @@
 name: Deploy to Azure VM
-
+ 
 on:
   push:
     branches:
-      - main
-
+      - main  # Change this to your target branch
+ 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+ 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Set up SSH for Azure VM
+ 
+      - name: Set up SSH
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.AZURE_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.AZURE_VM_IP }} >> ~/.ssh/known_hosts
-
+ 
       - name: Deploy Code to Azure VM
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }} <<EOF
-          set -e  # Exit immediately if a command fails
-          
-          # Ensure the backend directory exists
-          mkdir -p ~/backend
-          cd ~/backend
-
-          # Set up SSH-based Git authentication
-          if [ ! -d ".git" ]; then
-            git clone git@github.com:${{ github.repository }}.git .
-          else
-            git pull origin main
-          fi
+          ssh -i ~/.ssh/id_rsa ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }} << EOF
+            set -e  # Exit immediately if a command fails
+            # Ensure the backend directory exists
+            mkdir -p ~/backend
+            cd ~/backend
+ 
+            # Use SSH-based Git authentication
+            if [ ! -d ".git" ]; then
+              git clone git@github.com:${{ github.repository }}.git .
+            else
+              git pull origin main
+            fi
           EOF
