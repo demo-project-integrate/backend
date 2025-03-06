@@ -11,3 +11,11 @@ services:
       MONGO_INITDB_ROOT_DATABASE: product-service
     volumes:
       - ./data:/data/db
+  
+  app:
+    build: .
+    container_name: my-java-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
