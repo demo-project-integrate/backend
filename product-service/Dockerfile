@@ -5,6 +5,6 @@ WORKDIR /app
 # Copy the Maven build JAR file into the container
 COPY target/product-service-1.0.0.jar app.jar
 # Expose the port the app runs on
-EXPOSE 8081
+EXPOSE 5000
 # Run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
