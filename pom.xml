@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.mis</groupId>
-    <artifactId>parent-project</artifactId>
+    <artifactId>ims</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging> <!-- Important for multi-module projects -->
     <name>Parent Project</name>
