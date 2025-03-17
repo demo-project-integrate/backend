@@ -12,7 +12,7 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: rootpassword
     ports:
-      - "8081:8081"
+      - "5000:8081"
 
 
   mysql:
