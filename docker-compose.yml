@@ -4,20 +4,23 @@ services:
 
   product-service:
     build: ./product-service
-    container_name: product-service
+    container_name: ${PRODUCT_SERVICE}
     depends_on:
       - mysql
     environment:
+      DOCKER_PORT: ${DOCKER_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/product_db
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: rootpassword
     ports:
-      - "8081:8081"
+      - "${PORT}:${PORT}"
 
 
   mysql:
     image: mysql:8.0
-    container_name: mysql-db
+    container_name: ${DB_CONTAINER_NAME}
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
@@ -27,4 +30,6 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
+volumes:
+  mysql_data:
 
