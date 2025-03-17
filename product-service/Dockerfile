@@ -3,7 +3,7 @@ FROM eclipse-temurin:21-jdk
 # Set the working directory inside the container
 WORKDIR /app
 # Copy the Maven build JAR file into the container
-COPY target/product-service-0.0.1-SNAPSHOT.jar app.jar
+COPY target/product-service-1.0.0.jar app.jar
 # Expose the port the app runs on
 EXPOSE 8081
 # Run the application
