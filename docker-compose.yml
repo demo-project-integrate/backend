@@ -8,6 +8,9 @@ services:
     depends_on:
       - mysql
     environment:
+      DOCKER_PORT: ${DOCKER_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/product_db
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: rootpassword
