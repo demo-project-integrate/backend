@@ -1,7 +1,7 @@
 # Build Stage
 FROM eclipse-temurin:21-jdk AS build
 
-WORKDIR /app
+WORKDIR /
 
 # Copy the entire backend project (including parent POM)
 COPY . .
