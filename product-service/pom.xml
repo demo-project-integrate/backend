@@ -5,7 +5,7 @@
 
 	<parent>
 		<groupId>com.mis</groupId>
-		<artifactId>mis-microservices</artifactId>
+		<artifactId>ims</artifactId>
 		<version>1.0.0</version>
 		<relativePath>../pom.xml</relativePath>  <!-- Points to parent POM -->
 	</parent>
