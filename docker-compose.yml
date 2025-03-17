@@ -4,7 +4,7 @@ services:
 
   product-service:
     build: ./product-service
-    container_name: product-service
+    container_name: ${PRODUCT_SERVICE}
     depends_on:
       - mysql
     environment:
