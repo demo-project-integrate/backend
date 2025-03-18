@@ -8,7 +8,7 @@ services:
     depends_on:
       - mysql
     environment:
-      DOCKER_PORT: ${DOCKER_PORT}
+      DOCKER_PORT: ${DOCKER_PRODUCT_PORT}
       DB_USER: ${DB_USER}
       DB_PASS: ${DB_PASS}
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/product_db
@@ -17,6 +17,20 @@ services:
     ports:
       - "${PORT}:${PORT}"
 
+  invoice-service:
+    build: ./invoice-service
+    container_name: ${INVOICE_SERVICE}
+    depends_on:
+      - mysql
+    environment:
+      DOCKER_PORT: ${DOCKER_INVOICE_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/invoice_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: rootpassword
+    ports:
+      - "8081:8081"
 
   mysql:
     image: mysql:8.0
