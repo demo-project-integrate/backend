@@ -13,7 +13,8 @@
     <description>Parent Project for Spring Boot Services</description>
 
     <modules>
-        <module>product-service</module> <!-- Add your second service here -->
+        <module>product-service</module>
+        <module>invoice-service</module><!-- Add your second service here -->
     </modules>
 
     <properties>
