@@ -1,6 +1,10 @@
 # Use Eclipse Temurin JDK 21 as the base image
 FROM eclipse-temurin:21-jdk
 
+ARG DOCKER_PRODUCT_PORT
+ARG PRODUCT_DB_USER
+ARG PRODUCT_DB_PASS
+
 # Define runtime environment variables (ENV)
 ENV DOCKER_PORT=${DOCKER_PRODUCT_PORT}
 ENV DB_USER=${PRODUCT_DB_USER}
