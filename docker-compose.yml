@@ -11,6 +11,7 @@ services:
       DOCKER_PRODUCT_PORT: ${DOCKER_PRODUCT_PORT}
       PRODUCT_DB_USER: ${PRODUCT_DB_USER}
       PRODUCT_DB_PASS: ${PRODUCT_DB_PASS}
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/product_db
     ports:
       - "${DOCKER_PRODUCT_PORT}:${DOCKER_PRODUCT_PORT}"
 
@@ -23,6 +24,7 @@ services:
       DOCKER_INVOICE_PORT: ${DOCKER_INVOICE_PORT}
       INVOICE_DB_USER: ${INVOICE_DB_USER}
       INVOICE_DB_PASS: ${INVOICE_DB_PASS}
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/invoice_db
     ports:
       - "${DOCKER_INVOICE_PORT}:${DOCKER_INVOICE_PORT}"
 
