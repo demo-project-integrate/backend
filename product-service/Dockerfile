@@ -1,15 +1,10 @@
 # Use Eclipse Temurin JDK 21 as the base image
 FROM eclipse-temurin:21-jdk
 
-# Define build-time variable (ARG)
-ARG DOCKER_PORT
-ARG DB_USER
-ARG DB_PASS
-
 # Define runtime environment variables (ENV)
-ENV PORT=${DOCKER_PORT}
-ENV DB_USER=${DB_USER}
-ENV DB_PASS=${DB_PASS}
+ENV DOCKER_PORT=${DOCKER_PRODUCT_PORT}
+ENV DB_USER=${PRODUCT_DB_USER}
+ENV DB_PASS=${PRODUCT_DB_PASS}
 
 # Set the working directory inside the container
 WORKDIR /app
