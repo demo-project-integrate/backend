@@ -25,7 +25,7 @@ public class Routes {
     public RouterFunction<ServerResponse> productServiceRoute(){
         System.out.println("in product route");
         return GatewayRouterFunctions.route("product_service")
-                .route(RequestPredicates.path("/api/product"), HandlerFunctions.http("http://localhost:"+productPort))
+                .route(RequestPredicates.path("/api/product"), HandlerFunctions.http("http://20.244.102.185:"+productPort))
                 .build();
     }
 
@@ -33,7 +33,7 @@ public class Routes {
     public RouterFunction<ServerResponse> invoiceServiceRoute(){
         System.out.println("in service route");
         return GatewayRouterFunctions.route("invoice_service")
-                .route(RequestPredicates.path("/api/invoices"), HandlerFunctions.http("http://localhost:"+invoicePort))
+                .route(RequestPredicates.path("/api/invoices"), HandlerFunctions.http("http://20.244.102.185:"+invoicePort))
                 .build();
     }
 }
