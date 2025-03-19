@@ -14,7 +14,8 @@
 
     <modules>
         <module>product-service</module>
-        <module>invoice-service</module><!-- Add your second service here -->
+        <module>invoice-service</module>
+        <module>gateway-service</module><!-- Add your second service here -->
     </modules>
 
     <properties>

@@ -2,6 +2,18 @@ version: '3.8'
 
 services:
 
+  gateway-service:
+    build: ./gateway-service
+    container_name: ${GATEWAY_SERVICE}
+    depends_on:
+      - product-service
+      - invoice-service
+    environment:
+      DOCKER_PORT: ${DOCKER_GATEWAY_PORT}
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: ${KEYCLOAK_ISSUER_URI}
+    ports:
+      - "${GATEWAY_PORT}:${GATEWAY_PORT}"
+
   product-service:
     build: ./product-service
     container_name: ${PRODUCT_SERVICE}
@@ -12,6 +24,8 @@ services:
       PRODUCT_DB_USER: ${PRODUCT_DB_USER}
       PRODUCT_DB_PASS: ${PRODUCT_DB_PASS}
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/product_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: rootpassword
     ports:
       - "${DOCKER_PRODUCT_PORT}:${DOCKER_PRODUCT_PORT}"
 
@@ -25,6 +39,8 @@ services:
       INVOICE_DB_USER: ${INVOICE_DB_USER}
       INVOICE_DB_PASS: ${INVOICE_DB_PASS}
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/invoice_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: rootpassword
     ports:
       - "${DOCKER_INVOICE_PORT}:${DOCKER_INVOICE_PORT}"
 

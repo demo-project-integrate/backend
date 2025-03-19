@@ -1,4 +1,4 @@
-package com.ims;
+package com.ims.service;
 
 import com.ims.dto.InvoiceRequest;
 import com.ims.dto.InvoiceResponse;
@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -31,15 +32,7 @@ public class InvoiceService {
                 .phone(request.getUser().getPhone())
                 .build();
 
-        // Create Invoice Items
-//        List<InvoiceItem> items = request.getProducts().stream()
-//                .map(product -> InvoiceItem.builder()
-//                        .productId(product.getProductId())
-//                        .productName(product.getProductName())
-//                        .quantity(product.getQuantity())
-//                        .price(product.getPrice())
-//                        .build())
-//                .collect(Collectors.toList());
+
         List<InvoiceItem> items = request.getProducts().stream()
                 .map(product -> InvoiceItem.builder()
                         .productId(product.getProductId())
@@ -74,7 +67,6 @@ public class InvoiceService {
 
     public List<InvoiceResponse> getAllInvoices() {
         List<Invoice> invoices = invoiceRepository.findAll();
-        System.out.println("list"+invoices);
         return invoices.stream().map(this::mapToResponse).collect(Collectors.toList());
     }
 
@@ -92,6 +84,7 @@ public class InvoiceService {
         Invoice item = invoiceRepository.findById(itemId)
                 .orElseThrow(() -> new RuntimeException("Invoice item not found with ID: " + itemId));
 
+        invoiceRepository.findAllById(Collections.singleton(itemId));
         invoiceRepository.delete(item);
         log.info("Invoice item deleted with ID: {}", itemId);
     }
