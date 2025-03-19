@@ -11,18 +11,28 @@ import org.springframework.web.servlet.function.ServerResponse;
 public class Routes {
 
     @Bean
+
+    @Value("${spring.product.port}")
+    private string productPort;
+
+  
+    
     public RouterFunction<ServerResponse> productServiceRoute(){
         System.out.println("in product route");
         return GatewayRouterFunctions.route("product_service")
-                .route(RequestPredicates.path("/api/product"), HandlerFunctions.http("http://localhost:8081"))
+                .route(RequestPredicates.path("/api/product"), HandlerFunctions.http("http://localhost:"+productPort))
                 .build();
     }
 
     @Bean
+    
+    @Value("${spring.invoice.port}")
+    private string invoicePort;
+    
     public RouterFunction<ServerResponse> invoiceServiceRoute(){
         System.out.println("in service route");
         return GatewayRouterFunctions.route("invoice_service")
-                .route(RequestPredicates.path("/api/invoices"), HandlerFunctions.http("http://localhost:8082"))
+                .route(RequestPredicates.path("/api/invoices"), HandlerFunctions.http("http://localhost:"+invoicePort))
                 .build();
     }
 }
