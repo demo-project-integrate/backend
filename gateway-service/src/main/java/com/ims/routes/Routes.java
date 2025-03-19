@@ -10,13 +10,16 @@ import org.springframework.web.servlet.function.ServerResponse;
 @Configuration
 public class Routes {
 
-    @Bean
-
+    
     @Value("${spring.product.port}")
     private String productPort;
 
-  
     
+    @Value("${spring.invoice.port}")
+    private String invoicePort;
+    
+
+    @Bean
     public RouterFunction<ServerResponse> productServiceRoute(){
         System.out.println("in product route");
         return GatewayRouterFunctions.route("product_service")
@@ -25,10 +28,6 @@ public class Routes {
     }
 
     @Bean
-    
-    @Value("${spring.invoice.port}")
-    private String invoicePort;
-    
     public RouterFunction<ServerResponse> invoiceServiceRoute(){
         System.out.println("in service route");
         return GatewayRouterFunctions.route("invoice_service")
