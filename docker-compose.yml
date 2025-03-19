@@ -11,6 +11,8 @@ services:
     environment:
       DOCKER_PORT: ${DOCKER_GATEWAY_PORT}
       SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: ${KEYCLOAK_ISSUER_URI}
+      DOCKER_PRODUCT_PORT: ${DOCKER_PRODUCT_PORT} 
+      DOCKER_INVOICE_PORT: ${DOCKER_INVOICE_PORT}
     ports:
       - "${GATEWAY_PORT}:${GATEWAY_PORT}"
 
@@ -20,12 +22,10 @@ services:
     depends_on:
       - mysql
     environment:
-      DOCKER_PRODUCT_PORT: ${DOCKER_PRODUCT_PORT}
-      PRODUCT_DB_USER: ${PRODUCT_DB_USER}
-      PRODUCT_DB_PASS: ${PRODUCT_DB_PASS}
+      DOCKER_PORT: ${DOCKER_PRODUCT_PORT}
+      DB_USER: ${PRODUCT_DB_USER}
+      DB_PASS: ${PRODUCT_DB_PASS}
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/product_db
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: rootpassword
     ports:
       - "${DOCKER_PRODUCT_PORT}:${DOCKER_PRODUCT_PORT}"
 
@@ -35,12 +35,10 @@ services:
     depends_on:
       - mysql
     environment:
-      DOCKER_INVOICE_PORT: ${DOCKER_INVOICE_PORT}
-      INVOICE_DB_USER: ${INVOICE_DB_USER}
-      INVOICE_DB_PASS: ${INVOICE_DB_PASS}
+      DOCKER_PORT: ${DOCKER_INVOICE_PORT}
+      DB_USER: ${INVOICE_DB_USER}
+      DB_PASS: ${INVOICE_DB_PASS}
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/invoice_db
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: rootpassword
     ports:
       - "${DOCKER_INVOICE_PORT}:${DOCKER_INVOICE_PORT}"
 
