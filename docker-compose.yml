@@ -24,8 +24,8 @@ services:
       PRODUCT_DB_USER: ${PRODUCT_DB_USER}
       PRODUCT_DB_PASS: ${PRODUCT_DB_PASS}
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/product_db
-      SPRING_DATASOURCE_USERNAME: product
-      SPRING_DATASOURCE_PASSWORD: product
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: rootpassword
     ports:
       - "${DOCKER_PRODUCT_PORT}:${DOCKER_PRODUCT_PORT}"
 
@@ -39,8 +39,8 @@ services:
       INVOICE_DB_USER: ${INVOICE_DB_USER}
       INVOICE_DB_PASS: ${INVOICE_DB_PASS}
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/invoice_db
-      SPRING_DATASOURCE_USERNAME: invoice
-      SPRING_DATASOURCE_PASSWORD: invoice
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: rootpassword
     ports:
       - "${DOCKER_INVOICE_PORT}:${DOCKER_INVOICE_PORT}"
 
