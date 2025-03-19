@@ -29,5 +29,11 @@ public class InvoiceItem {
     @JoinColumn(name = "invoice_id", nullable = false)
     @JsonBackReference
     private Invoice invoice;
+
+    @Override
+    public String toString() {
+        return "InvoiceItem{id=" + id + ", productName='" + productName + "', price=" + price + "}";
+    }
+
 }
 
