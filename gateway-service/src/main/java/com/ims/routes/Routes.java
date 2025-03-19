@@ -13,7 +13,7 @@ public class Routes {
     @Bean
 
     @Value("${spring.product.port}")
-    private string productPort;
+    private String productPort;
 
   
     
@@ -27,7 +27,7 @@ public class Routes {
     @Bean
     
     @Value("${spring.invoice.port}")
-    private string invoicePort;
+    private String invoicePort;
     
     public RouterFunction<ServerResponse> invoiceServiceRoute(){
         System.out.println("in service route");
