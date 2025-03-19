@@ -122,3 +122,66 @@ jobs:
         if: always()
         run: |
           az vm deallocate --resource-group demo-pipelining_group --name demo-pipelining
+          
+  deploy-test:
+    runs-on: ubuntu-latest
+    needs: [azurevm-stop]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up SSH for Azure VM
+        run: |
+          mkdir -p ~/.ssh
+          echo "$AZURE_SSH_BACKEND_KEY" > ~/.ssh/id_rsa_azure
+          chmod 600 ~/.ssh/id_rsa_azure
+          ssh-keyscan -H ${{ secrets.AZURE_VM_IP }} >> ~/.ssh/known_hosts
+        env:
+          AZURE_SSH_BACKEND_KEY: ${{ secrets.AZURE_SSH_BACKEND_KEY }}
+
+      - name: Clone Backend Repo
+        env:
+          AZURE_SSH_BACKEND_KEY: ${{ secrets.AZURE_SSH_BACKEND_KEY }}
+          AZURE_VM_USERNAME: ${{ secrets.AZURE_VM_USERNAME }}
+          AZURE_VM_IP: ${{ secrets. AZURE_VM_IP }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$AZURE_SSH_BACKEND_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }} \
+            "cd .ssh/ && \
+             rm -rf config && \
+             cd ../ && \
+             chmod 600 ~/.ssh/id_rsa && \
+             echo -e 'Host github.com\n  HostName github.com\n  IdentityFile ~/.ssh/id_rsa' >> ~/.ssh/config && \
+             git clone git@github.com:${{ github.repository }}.git test || \
+             (cd test && git pull origin dev)"
+             
+  start_backend_test_server:
+    runs-on: ubuntu-latest
+    needs: [deploy-test]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Start Backend
+        env:
+          AZURE_SSH_BACKEND_KEY: ${{ secrets.AZURE_SSH_BACKEND_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$AZURE_SSH_BACKEND_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }} \
+            "cd test && \
+             git pull origin dev && \
+             sudo mvn clean install -DskipTests && \
+             sudo docker-compose up -d --build" &
+             
+      - name: Wait for Backend to be Available
+        run: |
+          until curl -s http://${{ secrets.AZURE_VM_IP }}:8081/api/product >/dev/null; do
+            echo "Waiting for Backend..."
+            sleep 5
+          done
+
+
