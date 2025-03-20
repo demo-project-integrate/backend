@@ -32,9 +32,10 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-gateway-mvc</artifactId>
-		</dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-gateway</artifactId>
+</dependency>
+
 		<!-- Spring Boot Security for Keycloak -->
 <!--		<dependency>-->
 <!--			<groupId>org.springframework.boot</groupId>-->
