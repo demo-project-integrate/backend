@@ -6,7 +6,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 
 
-@SpringBootTest
+@SpringBootTest(classes = {TestConfig.class})
 @ContextConfiguration(classes = GatewayServiceApplication.class)
 class GatewayServiceApplicationTests {
 
