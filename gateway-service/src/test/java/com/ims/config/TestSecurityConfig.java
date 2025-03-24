@@ -1,20 +1,35 @@
 package com.ims.config;
 
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Profile;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-@Profile("test")
-@TestConfiguration
-public class TestSecurityConfig {
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Answers.RETURNS_SELF;
+import static org.mockito.Mockito.mock;
 
-    @Bean
-    public SecurityFilterChain testsecurityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(auth -> auth.anyRequest().permitAll()) // Disable authentication
-                .csrf(csrf -> csrf.disable()); // Disable CSRF for tests
-        return http.build();
+@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+class SecurityConfigTest {
+
+    private final SecurityConfig securityConfig = new SecurityConfig();
+
+    @Autowired
+    private SecurityFilterChain securityFilterChain;
+
+    @Test
+    void testSecurityFilterChain() {
+        assertNotNull(securityFilterChain, "SecurityFilterChain should not be null");
+    }
+
+    @Test
+    void testJwtDecoder() {
+        JwtDecoder jwtDecoder = securityConfig.jwtDecoder();
+        assertNotNull(jwtDecoder);
     }
 }
-

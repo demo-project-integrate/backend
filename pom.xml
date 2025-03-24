@@ -13,9 +13,9 @@
     <description>Parent Project for Spring Boot Services</description>
 
     <modules>
-<!--        <module>product-service</module>-->
+        <module>product-service</module>
         <module>invoice-service</module>
-<!--        <module>gateway-service</module>&lt;!&ndash; Add your second service here &ndash;&gt;-->
+        <module>gateway-service</module><!-- Add your second service here -->
     </modules>
 
     <properties>
