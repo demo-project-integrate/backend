@@ -2,6 +2,7 @@ package com.ims.service;
 
 import com.ims.dto.InvoiceRequest;
 import com.ims.dto.InvoiceResponse;
+import com.ims.exception.InvoiceNotFoundException;
 import com.ims.model.Invoice;
 import com.ims.model.InvoiceItem;
 import com.ims.model.UserDetail;
@@ -10,9 +11,9 @@ import com.ims.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -24,14 +25,16 @@ public class InvoiceService {
     private final InvoiceRepository invoiceRepository;
     private final UserRepository userRepository;
 
+    @Transactional
     public InvoiceResponse createInvoice(InvoiceRequest request) {
+        log.info("Creating invoice for user: {}", request.getUser().getEmail());
+
         // Create User
         UserDetail user = UserDetail.builder()
                 .name(request.getUser().getName())
                 .email(request.getUser().getEmail())
                 .phone(request.getUser().getPhone())
                 .build();
-
 
         List<InvoiceItem> items = request.getProducts().stream()
                 .map(product -> InvoiceItem.builder()
@@ -53,21 +56,40 @@ public class InvoiceService {
         items.forEach(item -> item.setInvoice(invoice)); // Set invoice reference in items
 
         invoiceRepository.save(invoice);
-        log.info("Invoice created: {}", invoice.getInvoiceNumber());
+        log.info("Invoice created successfully: {}", invoice.getInvoiceNumber());
 
-        return new InvoiceResponse(invoice.getId(), invoice.getInvoiceNumber(), invoice.getCreatedAt(), items, user);
+        return mapToResponse(invoice);
     }
+
     public InvoiceResponse getInvoiceById(Long id) {
-        System.out.println("getInvoiceby id called in service"+id);
+        log.info("Fetching invoice with ID: {}", id);
         Invoice invoice = invoiceRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Invoice not found with ID: " + id));
+                .orElseThrow(() -> {
+                    log.error("Invoice not found with ID: {}", id);
+                    return new InvoiceNotFoundException("Invoice not found with ID: " + id);
+                });
 
         return mapToResponse(invoice);
     }
 
     public List<InvoiceResponse> getAllInvoices() {
+        log.info("Fetching all invoices...");
         List<Invoice> invoices = invoiceRepository.findAll();
         return invoices.stream().map(this::mapToResponse).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void deleteInvoiceItem(Long itemId) {
+        log.info("Attempting to delete invoice item with ID: {}", itemId);
+
+        InvoiceItem item = invoiceRepository.findInvoiceItemById(itemId)
+                .orElseThrow(() -> {
+                    log.error("Invoice item not found with ID: {}", itemId);
+                    return new InvoiceNotFoundException("Invoice item not found with ID: " + itemId);
+                });
+
+        invoiceRepository.deleteInvoiceItemById(itemId);
+        log.info("Successfully deleted invoice item with ID: {}", itemId);
     }
 
     private InvoiceResponse mapToResponse(Invoice invoice) {
@@ -79,15 +101,4 @@ public class InvoiceService {
                 invoice.getUserDetail()
         );
     }
-    public void deleteInvoiceItem(Long itemId) {
-        System.out.println("Delete called in service "+itemId);
-        Invoice item = invoiceRepository.findById(itemId)
-                .orElseThrow(() -> new RuntimeException("Invoice item not found with ID: " + itemId));
-
-        invoiceRepository.findAllById(Collections.singleton(itemId));
-        invoiceRepository.delete(item);
-        log.info("Invoice item deleted with ID: {}", itemId);
-    }
-
 }
-
