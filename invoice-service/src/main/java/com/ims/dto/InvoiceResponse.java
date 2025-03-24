@@ -17,4 +17,3 @@ public class InvoiceResponse {
     private List<InvoiceItem> items;
     private UserDetail user;
 }
-

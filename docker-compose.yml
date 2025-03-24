@@ -2,19 +2,19 @@
 
 services:
 
-  gateway-service:
-    build: ./gateway-service
-    container_name: ${GATEWAY_SERVICE}
-    depends_on:
-      - product-service
-      - invoice-service
-    environment:
-      DOCKER_PORT: ${DOCKER_GATEWAY_PORT}
-      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: ${KEYCLOAK_ISSUER_URI}
-      DOCKER_PRODUCT_PORT: ${DOCKER_PRODUCT_PORT}
-      DOCKER_INVOICE_PORT: ${DOCKER_INVOICE_PORT}
-    ports:
-      - "${GATEWAY_PORT}:${GATEWAY_PORT}"
+#  gateway-service:
+#    build: ./gateway-service
+#    container_name: ${GATEWAY_SERVICE}
+#    depends_on:
+#      - product-service
+#      - invoice-service
+#    environment:
+#      DOCKER_PORT: ${DOCKER_GATEWAY_PORT}
+#      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: ${KEYCLOAK_ISSUER_URI}
+#      DOCKER_PRODUCT_PORT: ${DOCKER_PRODUCT_PORT}
+#      DOCKER_INVOICE_PORT: ${DOCKER_INVOICE_PORT}
+#    ports:
+#      - "${GATEWAY_PORT}:${GATEWAY_PORT}"
 
   product-service:
     build: ./product-service

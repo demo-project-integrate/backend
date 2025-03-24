@@ -1,5 +1,6 @@
 package com.ims;
 
+import com.ims.config.TestcontainersConfiguration;
 import org.springframework.boot.SpringApplication;
 
 public class TestInvoiceServiceApplication {
