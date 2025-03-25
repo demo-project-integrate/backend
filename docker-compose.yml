@@ -14,7 +14,7 @@ services:
       DOCKER_PRODUCT_PORT: ${DOCKER_PRODUCT_PORT}
       DOCKER_INVOICE_PORT: ${DOCKER_INVOICE_PORT}
     ports:
-      - "${GATEWAY_PORT}:${GATEWAY_PORT}"
+      - "${DOCKER_GATEWAY_PORT}:${DOCKER_GATEWAY_PORT}"
 
   product-service:
     build: ./product-service
