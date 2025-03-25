@@ -13,7 +13,7 @@ WORKDIR /app
 COPY target/gateway-service-0.0.1-SNAPSHOT.jar app.jar
 
 # Expose the application port
-EXPOSE 8080
+EXPOSE ${DOCKER_PORT}
 
 # Run the application
 ENTRYPOINT ["sh", "-c", "java -jar app.jar --server.port=${DOCKER_PORT}"]
