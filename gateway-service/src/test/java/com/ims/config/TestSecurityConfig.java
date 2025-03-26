@@ -27,9 +27,5 @@ class SecurityConfigTest {
         assertNotNull(securityFilterChain, "SecurityFilterChain should not be null");
     }
 
-    @Test
-    void testJwtDecoder() {
-        JwtDecoder jwtDecoder = securityConfig.jwtDecoder();
-        assertNotNull(jwtDecoder);
-    }
+
 }

@@ -1,117 +1,191 @@
-# Product API Documentation
+# Invoice & Product Gateway Service - README
+
+## Overview
+This project serves as an API Gateway for the Invoice and Product services. It routes requests to the appropriate microservices and ensures seamless communication between them.
 
 ## Base URL
-
-`http://your-domain.com/api/product`
+The API Gateway acts as a single entry point for accessing the services:
+```
+http://your-domain.com/
+```
 
 ---
 
-## 1. Create a Product
+## Invoice Service Routes
 
+### 1. Create an Invoice
+**Endpoint:** `POST /api/invoices/create`
+
+**Request Body:**
+```json
+{
+  "user": {
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "phone": "1234567890"
+  },
+  "products": [
+    {
+      "productId": 1,
+      "productName": "Laptop",
+      "quantity": 1,
+      "price": 1500.99
+    }
+  ]
+}
+```
+
+**Response:**
+```json
+{
+  "id": 1,
+  "invoiceNumber": "abc-123",
+  "createdAt": "2025-03-26T12:00:00",
+  "items": [ ],
+  "userDetail": { }
+}
+```
+
+**Status Codes:**
+- `201 Created`: Invoice successfully created
+- `400 Bad Request`: Validation error
+
+---
+
+### 2. Get Invoice by ID
+**Endpoint:** `GET /api/invoices/get/{id}`
+
+**Response:**
+```json
+{
+  "id": 1,
+  "invoiceNumber": "abc-123",
+  "createdAt": "2025-03-26T12:00:00",
+  "items": [ ],
+  "userDetail": { }
+}
+```
+
+**Status Codes:**
+- `200 OK`: Invoice found
+- `404 Not Found`: Invoice does not exist
+
+---
+
+### 3. Get All Invoices
+**Endpoint:** `GET /api/invoices/get-all`
+
+**Response:**
+```json
+[
+  {
+    "id": 1,
+    "invoiceNumber": "abc-123",
+    "createdAt": "2025-03-26T12:00:00",
+    "items": [ ],
+    "userDetail": { }
+  }
+]
+```
+
+**Status Codes:**
+- `200 OK`: List of invoices retrieved successfully
+- `204 No Content`: No invoices found
+
+---
+
+### 4. Delete Invoice Item
+**Endpoint:** `DELETE /api/invoices/delete/{itemId}`
+
+**Status Codes:**
+- `204 No Content`: Invoice item successfully deleted
+- `404 Not Found`: Invoice item does not exist
+
+---
+
+## Product Service Routes
+
+### 1. Create a Product
 **Endpoint:** `POST /api/product`
 
 **Request Body:**
-
 ```json
 {
   "name": "Laptop",
-  "description": "A high-performance laptop for professionals.",
+  "description": "A high-performance laptop.",
   "hsnCode": "123456",
   "price": 1500.99
 }
 ```
 
 **Response:**
-
 ```json
 {
   "id": 1,
   "name": "Laptop",
-  "description": "A high-performance laptop for professionals.",
+  "description": "A high-performance laptop.",
   "hsnCode": "123456",
   "price": 1500.99
 }
 ```
 
 **Status Codes:**
-
 - `201 Created`: Product successfully created
 - `400 Bad Request`: Validation error
 
 ---
 
-## 2. Get All Products
-
+### 2. Get All Products
 **Endpoint:** `GET /api/product`
 
 **Response:**
-
 ```json
 [
   {
     "id": 1,
     "name": "Laptop",
-    "description": "A high-performance laptop for professionals.",
+    "description": "A high-performance laptop.",
     "hsnCode": "123456",
     "price": 1500.99
-  },
-  {
-    "id": 2,
-    "name": "Mouse",
-    "description": "Wireless mouse with ergonomic design.",
-    "hsnCode": "654321",
-    "price": 25.50
   }
 ]
 ```
 
 **Status Codes:**
-
 - `200 OK`: List of products retrieved successfully
 
 ---
 
-## 3. Get Product by ID
-
+### 3. Get Product by ID
 **Endpoint:** `GET /api/product/{id}`
 
-**Example Request:**
-`GET /api/product/1`
-
 **Response:**
-
 ```json
 {
   "id": 1,
   "name": "Laptop",
-  "description": "A high-performance laptop for professionals.",
+  "description": "A high-performance laptop.",
   "hsnCode": "123456",
   "price": 1500.99
 }
 ```
 
 **Status Codes:**
-
 - `200 OK`: Product found
 - `404 Not Found`: Product does not exist
 
 ---
 
-## 4. Get Products by Name
-
+### 4. Get Products by Name
 **Endpoint:** `GET /api/product/by-name?name={name}`
 
-**Example Request:**
-`GET /api/product/by-name?name=Laptop`
-
 **Response:**
-
 ```json
 [
   {
     "id": 1,
     "name": "Laptop",
-    "description": "A high-performance laptop for professionals.",
+    "description": "A high-performance laptop.",
     "hsnCode": "123456",
     "price": 1500.99
   }
@@ -119,33 +193,25 @@
 ```
 
 **Status Codes:**
-
 - `200 OK`: Products retrieved successfully
-- `404 Not Found`: No product found with the given name
+- `404 Not Found`: No product found
 
 ---
 
-## 5. Delete Product
-
+### 5. Delete Product
 **Endpoint:** `DELETE /api/product/{id}`
 
-**Example Request:**
-`DELETE /api/product/1`
-
-**Response:**
-*No content*
-
 **Status Codes:**
-
 - `204 No Content`: Product successfully deleted
 - `404 Not Found`: Product does not exist
 
 ---
 
-## Common Error Responses
+## Error Handling
+
+### Common Error Responses
 
 **400 Bad Request:**
-
 ```json
 {
   "error": "Validation failed",
@@ -154,7 +220,6 @@
 ```
 
 **404 Not Found:**
-
 ```json
 {
   "error": "Not Found",
@@ -162,5 +227,13 @@
 }
 ```
 
+---
 
+## Deployment
+This API Gateway can be deployed alongside microservices using Docker and Kubernetes. Ensure the correct ports and service names are configured in the application properties.
+
+---
+
+## License
+This project is licensed under MIT.
 
