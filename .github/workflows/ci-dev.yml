@@ -173,6 +173,7 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }} \
             "cd test && \
+             sudo docker-compose down \
              sudo mvn clean install -DskipTests && \
              sudo docker-compose up -d --build" &
              
