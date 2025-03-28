@@ -1,7 +1,7 @@
 package com.ims;
 
+import com.ims.config.TestcontainersConfiguration;
 import org.springframework.boot.SpringApplication;
-import com.ims.ProductServiceApplication;  // Ensure this import path is correct
 
 
 public class TestProductServiceApplication {
