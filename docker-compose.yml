@@ -5,6 +5,7 @@ services:
   gateway-service:
     build: ./gateway-service
     container_name: ${GATEWAY_SERVICE}
+    restart: always 
     depends_on:
       - product-service
       - invoice-service
@@ -19,6 +20,7 @@ services:
   product-service:
     build: ./product-service
     container_name: ${PRODUCT_SERVICE}
+    restart: always 
     depends_on:
       - mysql
     environment:
@@ -32,6 +34,7 @@ services:
   invoice-service:
     build: ./invoice-service
     container_name: ${INVOICE_SERVICE}
+    restart: always 
     depends_on:
       - mysql
     environment:
